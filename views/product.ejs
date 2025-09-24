@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Products</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f7fa;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .header h2 {
+      color: #333;
+    }
+
+    .dashboard-link {
+      text-decoration: none;
+      background-color: #3498db;
+      color: white;
+      padding: 10px 16px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    .dashboard-link:hover {
+      background-color: #2980b9;
+    }
+
+    .product-card {
+      display: flex;
+      align-items: center;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+
+    .product-image {
+      width: 220px;
+      height: 180px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .product-details {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .product-details h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      color: #2c3e50;
+    }
+
+    .product-details p {
+      margin: 0 0 15px;
+      color: #555;
+    }
+
+    .product-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn {
+      padding: 8px 14px;
+      font-size: 14px;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-edit {
+      background-color: #27ae60;
+      color: white;
+    }
+
+    .btn-edit:hover {
+      background-color: #1e8449;
+    }
+
+    .btn-delete {
+      background-color: #e74c3c;
+      color: white;
+    }
+
+    .btn-delete:hover {
+      background-color: #c0392b;
+    }
+
+    .no-data {
+      text-align: center;
+      color: #777;
+      padding: 30px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <%- include("./pages/flashes") %>
+
+  <div class="container">
+    <div class="header">
+      <h2>All Products</h2>
+      <a href="/admin" class="dashboard-link">Go to Dashboard</a>
+    </div>
+
+    <% if (data.length > 0) { %>
+      <% data.forEach(d => { %>
+        <div class="product-card">
+          <% if (d.image && d.image.length > 0) { %>
+            <img src="/<%= d.image[0] %>" alt="Product Image" class="product-image" />
+          <% } else { %>
+            <img src="/default.jpg" alt="No Image" class="product-image" />
+          <% } %>
+
+          <div class="product-details">
+            <h3><%= d.name %></h3>
+            <p><%= d.description %></p>
+            <div class="product-actions">
+              <a href="/admin/products/editpage/<%= d._id %>" class="btn btn-edit">Edit</a>
+              <a href="/admin/products/delete/<%= d._id %>" class="btn btn-delete">Delete</a>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    <% } else { %>
+      <div class="no-data">No Products Available</div>
+    <% } %>
+  </div>
+</body>
+</html>
+
+
